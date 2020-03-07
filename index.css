@@ -2,6 +2,7 @@
 *{
   margin: 0;
   padding: 0;
+  font-family: verdana;
 }
 
 body{
@@ -38,7 +39,6 @@ header .container{
 #navContainer button{
   height: 100%;
   width: 15%;
-  font-family: verdana;
   font-weight: bold;
   font-size: 14px;
   background-color: black;
@@ -84,7 +84,6 @@ form{
   position: relative;
   width: 100%;
   text-align: center;
-  font-family: verdana;
   font-size: 15px;
   height: 30px;
   border-radius: 12px;
@@ -96,7 +95,6 @@ form{
 }
 
 .buttons{
-  font-family: verdana;
   font-weight: bold;
   width: 100%;
   height: 35px;

@@ -1,8 +1,12 @@
 <?php
   session_start();
   $username=$email=$password="";
-
+  $conn = connectDB("localhost", "root", "");
   if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if (isset($_POST["postPost"])){
+      insertPost($conn, $_POST["title"], $_POST["text"], getUserID($conn, $_SESSION["username"]));
+      return;
+    }
     if (empty($_POST["username"])){
       echo "<body><script>alert('Enter username.')</script></body>";
     }
@@ -13,7 +17,7 @@
       if (isset($_POST["login"])){
         $username = testInput($_POST["username"]);
         $password = testInput($_POST["password"]);
-        login($username, $password);
+        login($conn, $username, $password);
 
       }
       else if (isset($_POST["register"])){
@@ -24,11 +28,12 @@
           $username = testInput($_POST["username"]);
           $email = testInput($_POST["email"]);
           $password = testInput($_POST["password"]);
-          registerUser($username, $email, $password);
+          registerUser($conn, $username, $email, $password);
         }
       }
     }
   }
+  closeConn($conn);
 
   function testInput($data){
     $data = trim($data);
@@ -45,27 +50,42 @@
     return $conn;
   }
 
-  function getUserID($username){
-
+  function closeConn($conn){
+    $conn->close();
+    return true;
   }
 
-  function getUserCount(){
-    $conn = connectDB("localhost", "root", "");
+  function getUserID($conn, $username){
+    $sql = "SELECT user_id FROM postapp.users WHERE username='".$username."'";
+    $result = $conn->query($sql);
+    $userID = $result->fetch_all();
+    return $userID[0][0];
+  }
 
+  function getPostsCount($conn, $userID){
+    $sql = "SELECT COUNT(*) FROM postapp.posts WHERE user_id='".$userID."'";
+    $result = $conn->query($sql);
+    $postCount = $result->fetch_all();
+    return $postCount[0][0];
+  }
+
+  function getPosts($conn, $userID){
+    $sql = "SELECT * FROM postapp.posts WHERE user_id='".$userID."'";
+    $result = $conn->query($sql);
+    $posts = $result->fetch_all();
+    return $posts;
+  }
+
+  function getUserCount($conn){
     $sql = "SELECT COUNT(*) FROM postapp.users";
     $result = $conn->query($sql);
-
     $count = $result->fetch_all();
-    $conn->close();
     return $count[0][0];
   }
 
-  function getPostsCount($userID){
 
-  }
 
-  function login($username, $password){
-    $conn = connectDB("localhost", "root", "");
+  function login($conn, $username, $password){
 
     $sql = "SELECT * FROM postapp.users WHERE username='".$username."'";
     $result = $conn->query($sql);
@@ -86,18 +106,15 @@
         echo "<body><script>alert('Wrong Password');</script></body>";
       }
     }
-    $conn->close();
   }
 
-  function registerUser($username, $email, $password){
-    $conn = connectDB("localhost", "root", "");
-
+  function registerUser($conn, $username, $email, $password){
     $sql = "SELECT * FROM postapp.users";
     $result = $conn->query($sql);
     $row = $result->fetch_all();
     $flag = 0;
 
-    for ($i = 0; $i < getUserCount(); $i++){
+    for ($i = 0; $i < getUserCount($conn); $i++){
       if ($username == $row[$i][1]){
         echo "<body><script>alert('Account with given username already exists.')</script></body>";
         $flag = 1;
@@ -113,6 +130,11 @@
       $result = $conn->query($sql);
         echo "<body><script>alert('Registration succesfull.')</script></body>";
     }
-    $conn->close();
+  }
+
+  function insertPost($conn, $title, $text, $userID){
+    $sql = "INSERT INTO postapp.posts(postTitle, postText, time, user_id) VALUES ('".$title."', '".$text."', current_timestamp(), '".$userID."')";
+    $result = $conn->query($sql);
+
   }
 ?>
