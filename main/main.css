@@ -1,3 +1,4 @@
+/* GLOBALS */
 *{
   margin: 0;
   padding: 0;
@@ -10,6 +11,7 @@ body{
   overflow: auto;
 }
 
+/* HEADER */
 header{
   background-color: black;
   width: 100%;
@@ -36,7 +38,6 @@ header .container{
 }
 #navContainer{
   text-align: right;
-
 }
 a{
   position: relative;
@@ -53,6 +54,7 @@ a:hover{
   color: orange;
 }
 
+/* FORM SECTION */
 .formContainer{
   position: relative;
   top: 10vh;
@@ -60,7 +62,6 @@ a:hover{
   margin: auto;
   height: 30vh;
 }
-
 form{
   position: relative;
   top: 5%;
@@ -68,18 +69,9 @@ form{
   text-align: center;
 
 }
-
 input{
   width: 100%;
 }
-
-
-section div{
-  border-left: 2px solid black;
-  border-right: 2px solid black;
-  padding: 10px;
-}
-
 #titleInput{
   position: relative;
   width: 100%;
@@ -98,7 +90,6 @@ section div{
   resize: none;
 
 }
-
 button{
   width: 30%;
   height: 30px;
@@ -116,35 +107,23 @@ button:hover{
   color: white;
 }
 
+/* POSTS */
+section div{
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+  padding: 10px;
+}
 
 .postsContainer{
   position: relative;
   height: 35vh;
-  width: 100%;
+  width: 30%;
+  margin: auto;
   top: 10vh;
-}
-
-.titleContainer{
-  position: relative;
-  width: 30%;
-  margin: auto;
   text-align: left;
 }
 
-.textContainer{
-  position: relative;
-  width: 30%;
-  margin: auto;
-  padding: 10px;
-
-}
-
-.timestampContainer{
-  position: relative;
-  width: 30%;
-  margin: auto;
-  text-align: left;
-}
+/* FOOTER */
 footer{
   background-color: black;
   width: 100%;

@@ -13,7 +13,6 @@ body{
 }
 
 /* HEADER */
-
 header{
   background-color: black;
   display: grid;
@@ -54,7 +53,6 @@ header .container{
   color: black;
   background-color: white;
 }
-
 
 /* MAIN SECTION */
 section{

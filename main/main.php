@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="main.css">
     <title>PostApp</title>
   </head>
+
   <body>
 
     <header>

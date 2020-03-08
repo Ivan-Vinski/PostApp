@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="index.css">
     <title>PostApp</title>
   </head>
+
   <body>
+
     <header>
       <div class="container" id="logoContainer">
         <h1>PostApp</h1>
@@ -15,8 +17,8 @@
         <button type="button" name="buttonLogin" onclick="openLoginForm()">Login</button>
         <button type="button" name="buttonRegister" onclick="openRegisterForm()">Register</button>
       </div>
-
     </header>
+
     <section>
       <div class="container" id="loginFormContainer">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
@@ -26,12 +28,9 @@
             <button type="submit" name="login" class="buttons" id="buttonLogin">Login</button>
             <button type="submit" name="register" class="buttons" id="buttonRegister">Register</button>
         </form>
-
-        </form>
-
       </div>
-
     </section>
+
     <footer>
       Footer
     </footer>
