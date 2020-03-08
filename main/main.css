@@ -58,7 +58,7 @@ a:hover{
   top: 10vh;
   width: 50%;
   margin: auto;
-  height: 40vh;
+  height: 30vh;
 }
 
 form{
@@ -86,14 +86,16 @@ section div{
   height: 30px;
   margin: 5px 0 5px 0;
   padding: 0;
+  resize: none;
 }
 #textInput{
   position: relative;
-  height: 150px;
+  height: 70px;
   width: 100%;
   margin: 5px 0 5px 0;
   padding: 0;
   text-align: left;
+  resize: none;
 
 }
 
@@ -149,4 +151,5 @@ footer{
   height: 10vh;
   position: fixed;
   bottom: 0;
+  z-index: 1;
 }
