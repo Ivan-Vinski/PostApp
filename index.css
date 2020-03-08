@@ -10,6 +10,7 @@ body{
   width: 100%;
   display: grid;
   grid-template-rows: 10fr 80fr 10fr;
+  overflow: hidden;
 }
 
 /* HEADER */
@@ -21,7 +22,7 @@ header{
 
 header .container{
   position: relative;
-  width: 60%;
+  width: 80%;
   height: 50%;
   margin: auto;
 }
@@ -110,6 +111,28 @@ form{
 /* FOOTER */
 footer{
   background-color: black;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  color: white;
+}
+
+footer .container{
+  width: 80%;
+  height: 50%;
+  margin: auto;
+}
+
+footer .container p{
+  color: white;
+  padding: 10px;
+  font-size: 14px;
+}
+
+footer .container img, footer .container a{
+  height: 40px;
+  width: 40px;
+  float: right;
+  margin: 0px 5px 0px 5px;
 }
 
 @media only screen and (max-width: 1200px) {

@@ -32,7 +32,14 @@
     </section>
 
     <footer>
-      Footer
+      <div class="container">
+        <p>Developer: ivinski@foi.hr</p>
+      </div>
+      <div class="container">
+        <img src="./img/facebookIcon.png" alt="facebook"></img>
+        <a href="https://hr.linkedin.com/in/ivanvinski"><img src="./img/linkedInIcon.png" alt="linkedIn"></img></a>
+        <a href="https://github.com/VinsTheOne"><img src="./img/gitHubIcon.png" alt="gitHub"></img></a>
+      </div>
     </footer>
 
     <script type="text/javascript">
