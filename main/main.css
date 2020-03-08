@@ -11,7 +11,6 @@ body{
   width: 100%;
   overflow: auto;
   padding-bottom: 20vh;
-
 }
 
 /* HEADER */
@@ -171,4 +170,40 @@ footer .container img, footer .container a{
   width: 40px;
   float: right;
   margin: 0px 5px 0px 5px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .postsContainer, .formContainer{
+    width: 60%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .postsContainer, .formContainer{
+    width: 90%;
+  }
+
+  footer .container{
+    width: 100%;
+  }
+}
+
+@media only screen and (max-height: 500px) {
+  header{
+    height: 20vh;
+    position: relative;
+  }
+  .formContainer{
+    margin-bottom: 30vh;
+  }
+  .postsContainer{
+    height: 70vh;
+  }
+
+  footer{
+    height: 20vh;
+    position: relative;
+    top: 20vh;
+  }
+
 }

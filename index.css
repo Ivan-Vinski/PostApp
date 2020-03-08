@@ -10,7 +10,7 @@ body{
   width: 100%;
   display: grid;
   grid-template-rows: 10fr 80fr 10fr;
-  overflow: hidden;
+  overflow: auto;
 }
 
 /* HEADER */
@@ -135,33 +135,55 @@ footer .container img, footer .container a{
   margin: 0px 5px 0px 5px;
 }
 
+@media only screen and (max-width: 600px) {
+  section .container{
+    width: 70%;
+  }
+  footer .container{
+    width: 100%;
+  }
+}
+
 @media only screen and (max-width: 1200px) {
   #navContainer button{
     font-size: 11px;
     width: 45%;
   }
-
-  section .container{
-    width: 70%;
-  }
-  form{
-    padding: 15px;
-  }
 }
-@media only screen and (max-height: 600px) {
+@media only screen and (max-height: 645px) {
   section .container{
-    height: 70%;
+    height: 60%;
     top: 10%;
   }
 }
-@media only screen and (max-height: 400px) {
+@media only screen and (max-height: 500px) {
   h1{
-      font-size: 14px;
+      font-size: 20px;
+  }
+  header{
+    height: 15vh;
   }
   section .container{
-    width: 60%;
+    width: 50%;
+    height: 80%;
+    top: 2%;
+  }
+  footer{
+    height: 15vh;
+  }
+}
+
+@media only screen and (max-height: 400px) {
+  section .container{
+    width: 50%;
     height: 90%;
     top: 2%;
   }
-}
+  .userInput{
+    font-size: 12px;
+    height: 25px;
+  }
+  .buttons{
+    height: 30px;
+  }
 }
