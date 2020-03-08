@@ -122,6 +122,23 @@ section div{
   top: 10vh;
   text-align: left;
 }
+.timestampContainer{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.timestampContainer p{
+  padding: 5px;
+}
+
+#deleteButton{
+  position: relative;
+  width: 60px;
+  float: right;
+  padding: 5px;
+  font-size: 12px;
+
+}
 
 /* FOOTER */
 footer{

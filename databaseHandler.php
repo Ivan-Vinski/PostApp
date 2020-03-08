@@ -5,9 +5,12 @@
   if($_SERVER["REQUEST_METHOD"] == "POST"){
     if (isset($_POST["postPost"])){
       insertPost($conn, $_POST["title"], $_POST["text"], getUserID($conn, $_SESSION["username"]));
-      return;
+      header("Refresh:0");
     }
-    if (empty($_POST["username"])){
+    else if(isset($_POST['deleteButton'])){
+      deletePost($conn, $_POST['deleteInput']);
+    }
+    else if (empty($_POST["username"])){
       echo "<body><script>alert('Enter username.')</script></body>";
     }
     else if (empty($_POST["password"])) {
@@ -54,36 +57,6 @@
     $conn->close();
     return true;
   }
-
-  function getUserID($conn, $username){
-    $sql = "SELECT user_id FROM postapp.users WHERE username='".$username."'";
-    $result = $conn->query($sql);
-    $userID = $result->fetch_all();
-    return $userID[0][0];
-  }
-
-  function getPostsCount($conn, $userID){
-    $sql = "SELECT COUNT(*) FROM postapp.posts WHERE user_id='".$userID."'";
-    $result = $conn->query($sql);
-    $postCount = $result->fetch_all();
-    return $postCount[0][0];
-  }
-
-  function getPosts($conn, $userID){
-    $sql = "SELECT * FROM postapp.posts WHERE user_id='".$userID."'";
-    $result = $conn->query($sql);
-    $posts = $result->fetch_all();
-    return $posts;
-  }
-
-  function getUserCount($conn){
-    $sql = "SELECT COUNT(*) FROM postapp.users";
-    $result = $conn->query($sql);
-    $count = $result->fetch_all();
-    return $count[0][0];
-  }
-
-
 
   function login($conn, $username, $password){
 
@@ -132,9 +105,43 @@
     }
   }
 
+  function getUserCount($conn){
+    $sql = "SELECT COUNT(*) FROM postapp.users";
+    $result = $conn->query($sql);
+    $count = $result->fetch_all();
+    return $count[0][0];
+  }
+
+  function getUserID($conn, $username){
+    $sql = "SELECT user_id FROM postapp.users WHERE username='".$username."'";
+    $result = $conn->query($sql);
+    $userID = $result->fetch_all();
+    return $userID[0][0];
+  }
+
+  function getPostsCount($conn, $userID){
+    $sql = "SELECT COUNT(*) FROM postapp.posts WHERE user_id='".$userID."'";
+    $result = $conn->query($sql);
+    $postCount = $result->fetch_all();
+    return $postCount[0][0];
+  }
+
+  function getPosts($conn, $userID){
+    $sql = "SELECT * FROM postapp.posts WHERE user_id='".$userID."'";
+    $result = $conn->query($sql);
+    $posts = $result->fetch_all();
+    return $posts;
+  }
+
   function insertPost($conn, $title, $text, $userID){
     $sql = "INSERT INTO postapp.posts(postTitle, postText, time, user_id) VALUES ('".$title."', '".$text."', current_timestamp(), '".$userID."')";
     $result = $conn->query($sql);
-
+    return $result;
   }
+  function deletePost($conn, $postID){
+    $sql = "DELETE FROM postapp.posts WHERE post_id='".$postID."'";
+    $result = $conn->query($sql);
+    return $result;
+  }
+
 ?>

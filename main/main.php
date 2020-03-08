@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -37,12 +38,18 @@
         echo "<section class='postsContainer'>
           <div class='titleContainer'><h1 class='postTitle'>".$posts[$i][1]."</h1></div>
           <div class='textContainer'><p class='postText'>".$posts[$i][2]."</p></div>
-          <div class='timestampContainer'><p class='time'>".$posts[$i][3]."</p></div>
+          <div class='timestampContainer'><p class='time'>".$posts[$i][3]."</p>
+            <form class='' action='./main.php' method='post'>
+              <input type='hidden' value='".$posts[$i][0]."' name='deleteInput' id='deleteInput'>
+              <button type='submit' name='deleteButton' id='deleteButton'>Delete</button>
+            </form>
+          </div>
         </section>";
       }
       echo "<br><br>";
       closeConn($conn);
      ?>
+
     <footer>
       <div class="">
         nes
