@@ -24,7 +24,7 @@
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             <input type="text" name="username" placeholder="Username" class="userInput" autofocus><br><br>
             <input type="password" name="password" placeholder="Password" class="userInput"><br><br>
-            <input type="text" name="email" place,j,holder="e-mail" class="userInput" id="emailInput"><br><br>
+            <input type="text" name="email" placeholder="e-mail" class="userInput" id="emailInput"><br><br>
             <button type="submit" name="login" class="buttons" id="buttonLogin">Login</button>
             <button type="submit" name="register" class="buttons" id="buttonRegister">Register</button>
         </form>

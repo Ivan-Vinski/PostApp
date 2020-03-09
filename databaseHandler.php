@@ -121,8 +121,8 @@
     return $posts;
   }
 
-  function getUsernameOfPost($conn, $postID){
-    $sql = "SELECT * FROM postapp.users WHERE user_id=".$postID;
+  function getUsernameOfPost($conn, $postFK){
+    $sql = "SELECT username FROM postapp.users WHERE users.user_id=".$postFK;
     $result = $conn->query($sql);
     $username = $result->fetch_all();
     return $username[0][0];
@@ -144,7 +144,7 @@
 
   function insertPost($conn, $title, $text, $bool, $userID){
     if ($bool == "private"){
-      $sql = "INSERT INTO postapp.posts(postTitle, postText, time, user_id) VALUES ('".$title."', '".$text."', current_timestamp(), '0' ,'".$userID."')";
+      $sql = "INSERT INTO postapp.posts(postTitle, postText, time, public, user_id) VALUES ('".$title."', '".$text."', current_timestamp(), '0' ,'".$userID."')";
       $result = $conn->query($sql);
       return $result;
     }

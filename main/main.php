@@ -109,15 +109,10 @@
           for($i = $postCount - 1; $i >= 0; $i--){
             // DISPLAY ALL POSTS// POST title
             echo "<section class='postsContainer'>
-              <div class='userConainer'><h1 class='postUser'>".getUsernameOfPost($conn, $posts[$i][0])."</h1></div>
+              <div class='userContainer'><h1 class='postUser'>#".getUsernameOfPost($conn, $posts[$i][5])."</h1></div>
               <div class='titleContainer'><h1 class='postTitle'>".$posts[$i][1]."</h1></div>
               <div class='textContainer'><p class='postText'>".$posts[$i][2]."</p></div>
-              <div class='timestampContainer'><p class='time'>".$posts[$i][3]."</p>
-                <form class='' action='./main.php' method='post'>
-                  <input type='hidden' value='".$posts[$i][0]."' name='deleteInput' id='deleteInput'>
-                  <button type='submit' name='deleteButton' id='deleteButton'>Delete</button>
-                </form>
-              </div>
+              <div class='timestampContainer'><p class='time'>".$posts[$i][3]."</p></div>
             </section>";
           }
           closeConn($conn);

@@ -158,6 +158,10 @@ section div{
   border-right: 2px solid black;
   padding: 10px;
 }
+
+.userContainer{
+  border: none;
+}
 .timestampContainer{
   display: grid;
   grid-template-columns: 1fr 1fr;
