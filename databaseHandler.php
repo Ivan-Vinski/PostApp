@@ -60,7 +60,7 @@
 
   function login($conn, $username, $password){
 
-    $sql = "SELECT * FROM postapp.users WHERE username='".$username."'";
+    $sql = "SELECT * FROM postapp.users WHERE BINARY username='".$username."'";
     $result = $conn->query($sql);
 
     if ($result->num_rows == 0){
@@ -70,6 +70,8 @@
       $row = $result->fetch_assoc();
       $dbUsername = $row["username"];
       $dbPassword = $row["password"];
+
+
 
       if (password_verify($password, $dbPassword)){
         $_SESSION['username'] = $username;
