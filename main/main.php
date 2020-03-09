@@ -18,15 +18,39 @@
         <a href="../index.php?logout=true">Logout</a>
       </div>
     </header>
+    <script>
+      function validatePostsForm() {
+        var x = document.forms["postForm"]["title"].value;
+        if (x == null || x == "") {
+          alert("Title must be filled out");
+          return false;
+        }
+        var x = document.forms["postForm"]["text"].value;
+        if (x == null || x == "") {
+          alert("Text must be filled out");
+          return false;
+        }
+        var x = document.forms["postForm"]["bool"].value;
+        if (x == null || x == "") {
+          alert("Choose if post is public or private");
+          return false;
+        }
+      }
 
+    </script>
     <div id="mainContainer">
       <section class="formContainer">
-        <form action="./main.php" method="post">
+        <form name="postForm" action="./main.php" method="post" onsubmit="return validatePostsForm()">
           <textarea type="text" name="title" id="titleInput" placeholder="Title"></textarea><br>
           <textarea type="text" name="text" id="textInput" placeholder="Post"></textarea><br>
+          <label for='private' class="bool">Private</label>
+          <input type='radio' id='private' name='bool' value='private' class="bool">
+          <label for='public' class="bool">Public</label>
+          <input type='radio' id='public' name='bool' value='public' class="bool"><br>
           <button type="submit" name="postPost">Post</button>
         </form>
       </section>
+
 
       <?php
         include "../databaseHandler.php";

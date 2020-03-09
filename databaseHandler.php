@@ -4,36 +4,22 @@
   $conn = connectDB("localhost", "root", "");
   if($_SERVER["REQUEST_METHOD"] == "POST"){
     if (isset($_POST["postPost"])){
-      insertPost($conn, $_POST["title"], $_POST["text"], getUserID($conn, $_SESSION["username"]));
-      header("Refresh:0");
+        insertPost($conn, $_POST["title"], $_POST["text"], $_POST["bool"] ,getUserID($conn, $_SESSION["username"]));
+        header("Refresh:0");
     }
-    else if(isset($_POST['deleteButton'])){
-      deletePost($conn, $_POST['deleteInput']);
+    if(isset($_POST["deleteButton"])){
+      deletePost($conn, $_POST["deleteInput"]);
     }
-    else if (empty($_POST["username"])){
-      echo "<body><script>alert('Enter username.')</script></body>";
+    else if (isset($_POST["login"])){
+      $username = testInput($_POST["username"]);
+      $password = testInput($_POST["password"]);
+      login($conn, $username, $password);
     }
-    else if (empty($_POST["password"])) {
-      echo "<body><script>alert('Enter password.')</script></body>";
-    }
-    else{
-      if (isset($_POST["login"])){
-        $username = testInput($_POST["username"]);
-        $password = testInput($_POST["password"]);
-        login($conn, $username, $password);
-
-      }
-      else if (isset($_POST["register"])){
-        if (empty($_POST["email"])) {
-          echo "<body><script>alert('Enter your e-mail.')</script></body>";
-        }
-        else{
-          $username = testInput($_POST["username"]);
-          $email = testInput($_POST["email"]);
-          $password = testInput($_POST["password"]);
-          registerUser($conn, $username, $email, $password);
-        }
-      }
+    else if (isset($_POST["register"])){
+      $username = testInput($_POST["username"]);
+      $email = testInput($_POST["email"]);
+      $password = testInput($_POST["password"]);
+      registerUser($conn, $username, $email, $password);
     }
   }
   closeConn($conn);
@@ -135,10 +121,18 @@
     return $posts;
   }
 
-  function insertPost($conn, $title, $text, $userID){
-    $sql = "INSERT INTO postapp.posts(postTitle, postText, time, user_id) VALUES ('".$title."', '".$text."', current_timestamp(), '".$userID."')";
-    $result = $conn->query($sql);
-    return $result;
+  function insertPost($conn, $title, $text, $bool, $userID){
+    if ($bool == "private"){
+      $sql = "INSERT INTO postapp.posts(postTitle, postText, time, user_id) VALUES ('".$title."', '".$text."', current_timestamp(), '0' ,'".$userID."')";
+      $result = $conn->query($sql);
+      return $result;
+    }
+    else{
+      $sql = "INSERT INTO postapp.posts(postTitle, postText, time, public, user_id) VALUES ('".$title."', '".$text."', current_timestamp(), '1','".$userID."')";
+      $result = $conn->query($sql);
+      return $result;
+    }
+
   }
   function deletePost($conn, $postID){
     $sql = "DELETE FROM postapp.posts WHERE post_id='".$postID."'";

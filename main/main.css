@@ -92,6 +92,12 @@ input{
   resize: none;
 
 }
+
+.bool{
+  display: inline;
+  width: 10%;
+  margin: 10px 0px 10px 0px;
+}
 button{
   width: 30%;
   height: 30px;
