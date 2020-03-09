@@ -149,7 +149,7 @@ button:hover{
   height: 35vh;
   width: 30%;
   margin: auto;
-  top: 10vh;
+  top: 5vh;
   text-align: left;
 }
 
@@ -217,12 +217,17 @@ footer .container img, footer .container a{
 }
 
 @media only screen and (max-width: 500px) {
-  .postsContainer, .formContainer, .tab{
+  .tab{
     width: 90%;
+  }
+  .postsContainer, .formContainer{
+    width: 90%;
+    height: 50vh;
   }
   .tab button{
     width: 45%;
   }
+
 
   footer .container{
     width: 100%;
