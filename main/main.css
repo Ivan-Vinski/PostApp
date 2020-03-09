@@ -30,6 +30,7 @@ header .container{
   height: 50%;
   margin: auto;
 }
+
 #logoContainer{
   color: white;
   font-weight: bold;
@@ -56,10 +57,37 @@ header .container{
   color: orange;
 }
 
+/* PRIVATE AND PUBLIC FEED TABS */
+.tab{
+  position: relative;
+  top: 10vh;
+  width: 30%;
+  margin: auto;
+}
+.tab button{
+  margin: 3px;
+  width: 48%;
+}
+
+.tabcontent{
+  position: relative;
+  display: none;
+  top: 10vh;
+}
+
+#privateFeed{
+  display: block;
+}
+
+.clearfix::after{
+  content: "";
+  clear: both;
+  display: table;
+}
+
 /* FORM SECTION */
 .formContainer{
   position: relative;
-  top: 10vh;
   width: 30%;
   margin: auto;
   height: 30vh;
@@ -179,14 +207,17 @@ footer .container img, footer .container a{
 }
 
 @media only screen and (max-width: 1200px) {
-  .postsContainer, .formContainer{
+  .postsContainer, .formContainer, .tab{
     width: 60%;
   }
 }
 
 @media only screen and (max-width: 500px) {
-  .postsContainer, .formContainer{
+  .postsContainer, .formContainer, .tab{
     width: 90%;
+  }
+  .tab button{
+    width: 45%;
   }
 
   footer .container{
@@ -199,6 +230,9 @@ footer .container img, footer .container a{
     height: 20vh;
     position: relative;
   }
+  .tab button{
+    width: 45%;
+  }
   .formContainer{
     margin-bottom: 30vh;
   }
@@ -209,7 +243,7 @@ footer .container img, footer .container a{
   footer{
     height: 20vh;
     position: relative;
-    top: 20vh;
+    top: 20vh
   }
 
 }

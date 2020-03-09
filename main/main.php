@@ -18,63 +18,93 @@
         <a href="../index.php?logout=true">Logout</a>
       </div>
     </header>
+
     <script>
-      function validatePostsForm() {
-        var x = document.forms["postForm"]["title"].value;
-        if (x == null || x == "") {
-          alert("Title must be filled out");
-          return false;
+      function switchFeeds(evt, divID) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
         }
-        var x = document.forms["postForm"]["text"].value;
-        if (x == null || x == "") {
-          alert("Text must be filled out");
-          return false;
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
-        var x = document.forms["postForm"]["bool"].value;
-        if (x == null || x == "") {
-          alert("Choose if post is public or private");
-          return false;
-        }
+        document.getElementById(divID).style.display = "block";
+        evt.currentTarget.className += " active";
       }
 
     </script>
-    <div id="mainContainer">
-      <section class="formContainer">
-        <form name="postForm" action="./main.php" method="post" onsubmit="return validatePostsForm()">
-          <textarea type="text" name="title" id="titleInput" placeholder="Title"></textarea><br>
-          <textarea type="text" name="text" id="textInput" placeholder="Post"></textarea><br>
-          <label for='private' class="bool">Private</label>
-          <input type='radio' id='private' name='bool' value='private' class="bool">
-          <label for='public' class="bool">Public</label>
-          <input type='radio' id='public' name='bool' value='public' class="bool"><br>
-          <button type="submit" name="postPost">Post</button>
-        </form>
-      </section>
 
-
-      <?php
-        include "../databaseHandler.php";
-        $conn = connectDB("localhost", "root", "");
-        $userID = getUserID($conn, $_SESSION["username"]);
-        $postCount = getPostsCount($conn, $userID);
-        $posts = getPosts($conn, $userID);
-        for($i = $postCount - 1; $i >= 0; $i--){
-          // DISPLAY ALL POSTS// POST title
-          echo "<section class='postsContainer'>
-            <div class='titleContainer'><h1 class='postTitle'>".$posts[$i][1]."</h1></div>
-            <div class='textContainer'><p class='postText'>".$posts[$i][2]."</p></div>
-            <div class='timestampContainer'><p class='time'>".$posts[$i][3]."</p>
-              <form class='' action='./main.php' method='post'>
-                <input type='hidden' value='".$posts[$i][0]."' name='deleteInput' id='deleteInput'>
-                <button type='submit' name='deleteButton' id='deleteButton'>Delete</button>
-              </form>
-            </div>
-          </section>";
-        }
-        closeConn($conn);
-       ?>
-
+    <div class="tab">
+      <button class="tablinks active" onclick="switchFeeds(event, 'privateFeed')">Private Feed</button>
+      <button class="tablinks" onclick="switchFeeds(event, 'publicFeed')">Public Feed</button>
     </div>
+
+    <div id="privateFeed" class="tabcontent">
+      <script>
+        function validatePostsForm() {
+          var x = document.forms["postForm"]["title"].value;
+          if (x == null || x == "") {
+            alert("Title must be filled out");
+            return false;
+          }
+          var x = document.forms["postForm"]["text"].value;
+          if (x == null || x == "") {
+            alert("Text must be filled out");
+            return false;
+          }
+          var x = document.forms["postForm"]["bool"].value;
+          if (x == null || x == "") {
+            alert("Choose if post is public or private");
+            return false;
+          }
+        }
+      </script>
+      <div id="mainPrivateContainer">
+        <section class="formContainer">
+          <form name="postForm" action="./main.php" method="post" onsubmit="return validatePostsForm()">
+            <textarea type="text" name="title" id="titleInput" placeholder="Title"></textarea><br>
+            <textarea type="text" name="text" id="textInput" placeholder="Post"></textarea><br>
+            <label for='private' class="bool">Private</label>
+            <input type='radio' id='private' name='bool' value='private' class="bool">
+            <label for='public' class="bool">Public</label>
+            <input type='radio' id='public' name='bool' value='public' class="bool"><br>
+            <button type="submit" name="postPost">Post</button>
+          </form>
+        </section>
+
+
+        <?php
+          include "../databaseHandler.php";
+          $conn = connectDB("localhost", "root", "");
+          $userID = getUserID($conn, $_SESSION["username"]);
+          $postCount = getPostsCount($conn, $userID);
+          $posts = getPosts($conn, $userID);
+          for($i = $postCount - 1; $i >= 0; $i--){
+            // DISPLAY ALL POSTS// POST title
+            echo "<section class='postsContainer'>
+              <div class='titleContainer'><h1 class='postTitle'>".$posts[$i][1]."</h1></div>
+              <div class='textContainer'><p class='postText'>".$posts[$i][2]."</p></div>
+              <div class='timestampContainer'><p class='time'>".$posts[$i][3]."</p>
+                <form class='' action='./main.php' method='post'>
+                  <input type='hidden' value='".$posts[$i][0]."' name='deleteInput' id='deleteInput'>
+                  <button type='submit' name='deleteButton' id='deleteButton'>Delete</button>
+                </form>
+              </div>
+            </section>";
+          }
+          closeConn($conn);
+         ?>
+
+      </div>
+    </div>
+
+    <div id="publicFeed" class="tabcontent">
+      PUBLIC FEED
+    </div>
+
+
 
     <footer>
       <div class="container">
