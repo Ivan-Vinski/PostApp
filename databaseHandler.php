@@ -107,15 +107,36 @@
     return $userID[0][0];
   }
 
-  function getPostsCount($conn, $userID){
+  function getUserPostsCount($conn, $userID){
     $sql = "SELECT COUNT(*) FROM postapp.posts WHERE user_id='".$userID."'";
     $result = $conn->query($sql);
     $postCount = $result->fetch_all();
     return $postCount[0][0];
   }
 
-  function getPosts($conn, $userID){
+  function getUserPosts($conn, $userID){
     $sql = "SELECT * FROM postapp.posts WHERE user_id='".$userID."'";
+    $result = $conn->query($sql);
+    $posts = $result->fetch_all();
+    return $posts;
+  }
+
+  function getUsernameOfPost($conn, $postID){
+    $sql = "SELECT * FROM postapp.users WHERE user_id=".$postID;
+    $result = $conn->query($sql);
+    $username = $result->fetch_all();
+    return $username[0][0];
+  }
+
+  function getPublicPostsCount($conn){
+    $sql = "SELECT COUNT(*) FROM postapp.posts WHERE public='1'";
+    $result = $conn->query($sql);
+    $postCount = $result->fetch_all();
+    return $postCount[0][0];
+  }
+
+  function getPublicPosts($conn){
+    $sql = "SELECT * FROM postapp.posts WHERE public='1'";
     $result = $conn->query($sql);
     $posts = $result->fetch_all();
     return $posts;
