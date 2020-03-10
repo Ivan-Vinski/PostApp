@@ -65,21 +65,6 @@
         document.getElementById(divID).style.display = "block";
         evt.currentTarget.className += " active";
       }
-
-      function openLoginForm(){
-        document.getElementById("emailInput").style.display="none";
-        document.getElementById("buttonLogin").style.display="block";
-        document.getElementById("buttonRegister").style.display="none";
-        var inputs = document.getElementsByTagName("form");
-        inputs[0].style.padding = "35px";
-      }
-      function openRegisterForm(){
-        document.getElementById("emailInput").style.display="block";
-        document.getElementById("buttonLogin").style.display="none";
-        document.getElementById("buttonRegister").style.display="block";
-        var inputs = document.getElementsByTagName("form");
-        inputs[0].style.padding = "24px";
-      }
     </script>
 
   </body>
