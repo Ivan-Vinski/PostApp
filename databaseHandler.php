@@ -13,18 +13,15 @@
     else if (isset($_POST["login"])){
       $username = filter_var($_POST["username"], FILTER_SANITIZE_STRING);
       $password = $_POST["password"];
-      login($conn, $username, $password);
+      $username = login($conn, $username, $password);
+
     }
     else if (isset($_POST["register"])){
       $username = filter_var($_POST["username"], FILTER_SANITIZE_STRING);
       $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
       $password = ($_POST["password"]);
-      if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "<script>alert('E-mail is not valid')</script>";
-      }
-      else{
-        registerUser($conn, $username, $email, $password);
-      }
+      registerUser($conn, $username, $email, $password);
+
     }
   }
   closeConn($conn);
@@ -43,26 +40,23 @@
   }
 
   function login($conn, $username, $password){
-
     $sql = "SELECT * FROM postapp.users WHERE BINARY username='".$username."'";
     $result = $conn->query($sql);
 
     if ($result->num_rows == 0){
-      echo "<body><script>alert('Account with given username not found.')</script></body>";
+      header("Location: index.php?noUser=true"); // USER DOESN'T EXIST
     }
     else{
       $row = $result->fetch_assoc();
       $dbUsername = $row["username"];
       $dbPassword = $row["password"];
 
-
-
       if (password_verify($password, $dbPassword)){
         $_SESSION['username'] = $username;
-        header("Location: main/main.php");
+        header("Location: main/main.php"); // LOGIN ALLOWED
       }
       else{
-        echo "<body><script>alert('Wrong Password');</script></body>";
+        header("Location: index.php?wp=true&username=".$username); // WRONG PASSWORD
       }
     }
   }
@@ -73,22 +67,23 @@
     $row = $result->fetch_all();
     $flag = 0;
 
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      header("Location: index.php?xmail=true");
+    }
+
     for ($i = 0; $i < getUserCount($conn); $i++){
       if ($username == $row[$i][1]){
-        echo "<body><script>alert('Account with given username already exists.')</script></body>";
-        $flag = 1;
+        header("Location: index.php?userExists=true"); // USERNAME ALREADY IN USE
       }
       else if ($email == $row[$i][2]){
-        echo "<body><script>alert('Account with given e-mail already exists.')</script></body>";
-        $flag = 1;
+        header("Location: index.php?emailExists=true"); // E-MAIL ALREADY IN USE
       }
     }
-    if (!$flag){
-      $hadhedPass = password_hash($password, PASSWORD_DEFAULT);
-      $sql = "INSERT INTO postapp.users(username, email, password) VALUES ('".$username."', '".$email."', '".$hadhedPass."')";
-      $result = $conn->query($sql);
-        echo "<body><script>alert('Registration succesfull.')</script></body>";
-    }
+
+    $hadhedPass = password_hash($password, PASSWORD_DEFAULT);
+    $sql = "INSERT INTO postapp.users(username, email, password) VALUES ('".$username."', '".$email."', '".$hadhedPass."')";
+    $result = $conn->query($sql);
+
   }
 
   function getUserCount($conn){

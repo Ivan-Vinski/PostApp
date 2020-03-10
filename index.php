@@ -1,13 +1,26 @@
+<?php include "databaseHandler.php"; ?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <title>PostApp</title>
   </head>
 
   <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
+    <script>
+      function warnmebruh(){
+
+        toastr['error']('e-mail is not valid', 'e-mail');
+      }
+    </script>
 
     <header>
       <div class="container" id="logoContainer">
@@ -22,8 +35,8 @@
     <section>
       <div class="container tabcontent" id="loginFormContainer" name="login">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <input type="text" name="username" placeholder="Username" class="userInput" autofocus required title="Username"><br><br>
-            <input type="password" name="password" placeholder="Password" class="userInput" required title="Password"><br><br>
+            <input id="username" type="text" name="username" placeholder="Username" class="userInput" autofocus required title="Username" value="<?php if (isset($_GET['username'])){echo $_GET['username'];}?>"><br><br>
+            <input id="passwordInput" type="password" name="password" placeholder="Password" class="userInput" required title="Password"><br><br>
             <button type="submit" name="login" class="buttons" id="buttonLogin">Login</button>
         </form>
       </div>
@@ -71,9 +84,61 @@
 </html>
 
 <?php
-  include "databaseHandler.php";
+
   if (isset($_GET["logout"])){
     session_destroy();
-    echo "<body><script>alert('Logut succesfull.')</script></body>";
+      echo "<script>toastr.options = {
+        'closeButton': true,
+        'positionClass': 'toast-top-center'
+        }
+    toastr['success']('Logout succesfull', 'Logout')</script>";
+  }
+
+  if (isset($_GET["wp"])) {
+    echo "<script>toastr.options = {
+      'closeButton': true,
+      'positionClass': 'toast-top-center'
+      }
+    toastr['error']('Incorrect password', 'Password')</script>";
+  }
+
+  if (isset($_GET["noUser"])){
+    echo "<script>toastr.options = {
+      'closeButton': true,
+      'positionClass': 'toast-top-center'
+      }
+    toastr['warning']('Account with given username not found', 'Username')</script>";
+  }
+
+  if (isset($_GET["userExists"])){
+      echo "<script>toastr.options = {
+        'closeButton': true,
+        'positionClass': 'toast-top-center'
+        }
+      toastr['warning']('Account with given username already exists', 'Username')</script>";
+  }
+
+  if(isset($_GET["emailExists"])){
+    echo "<script>toastr.options = {
+      'closeButton': true,
+      'positionClass': 'toast-top-center'
+      }
+    toastr['warning']('Account with given e-mail already exists', 'e-mail')</script>";
+  }
+
+  if (isset($_GET["reg"])){
+    echo "<script>toastr.options = {
+      'closeButton': true,
+      'positionClass': 'toast-top-center'
+      }
+    toastr['success']('...Success!', 'Registration')</script>";
+  }
+
+  if (isset($_GET["xmail"])){
+    echo "<script>toastr.options = {
+      'closeButton': true,
+      'positionClass': 'toast-top-center'
+      }
+    toastr['error']('Invalid e-mail adress', 'e-mail')</script>";
   }
  ?>
