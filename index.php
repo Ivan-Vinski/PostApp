@@ -22,17 +22,18 @@
     <section>
       <div class="container tabcontent" id="loginFormContainer" name="login">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <input type="text" name="username" placeholder="Username" class="userInput" autofocus required><br><br>
-            <input type="password" name="password" placeholder="Password" class="userInput" required><br><br>
+            <input type="text" name="username" placeholder="Username" class="userInput" autofocus required title="Username"><br><br>
+            <input type="password" name="password" placeholder="Password" class="userInput" required title="Password"><br><br>
             <button type="submit" name="login" class="buttons" id="buttonLogin">Login</button>
         </form>
       </div>
 
       <div class="container tabcontent" id="registerFormContainer" name="register">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <input type="text" name="username" placeholder="Username" class="userInput" autofocus required><br><br>
-            <input type="password" name="password" placeholder="Password" class="userInput" required><br><br>
-            <input type="text" name="email" placeholder="e-mail" class="userInput" id="emailInput" required><br><br>
+            <input type="text" name="username" placeholder="Username" class="userInput" autofocus required title="Username"><br><br>
+            <input type="password" name="password" placeholder="Password" class="userInput" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+            title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"><br><br>
+            <input type="text" name="email" placeholder="e-mail" class="userInput" id="emailInput" required title="e-mail"><br><br>
             <button type="submit" name="register" class="buttons" id="buttonRegister">Register</button>
         </form>
       </div>
