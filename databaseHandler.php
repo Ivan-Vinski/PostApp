@@ -11,25 +11,23 @@
       deletePost($conn, $_POST["deleteInput"]);
     }
     else if (isset($_POST["login"])){
-      $username = testInput($_POST["username"]);
-      $password = testInput($_POST["password"]);
+      $username = filter_var($_POST["username"], FILTER_SANITIZE_STRING);
+      $password = $_POST["password"];
       login($conn, $username, $password);
     }
     else if (isset($_POST["register"])){
-      $username = testInput($_POST["username"]);
-      $email = testInput($_POST["email"]);
-      $password = testInput($_POST["password"]);
-      registerUser($conn, $username, $email, $password);
+      $username = filter_var($_POST["username"], FILTER_SANITIZE_STRING);
+      $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
+      $password = ($_POST["password"]);
+      if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('E-mail is not valid')</script>";
+      }
+      else{
+        registerUser($conn, $username, $email, $password);
+      }
     }
   }
   closeConn($conn);
-
-  function testInput($data){
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-  }
 
   function connectDB($servername, $username, $password){
     $conn = new mysqli($servername, $username, $password);

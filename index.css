@@ -72,13 +72,20 @@ section .container{
   border: 2px solid black;
   box-shadow: 1px 1px 20px 1px;
   border-radius: 12px;
+  display: none;
+}
+#loginFormContainer{
+  display: block;
+}
+.clearfix::after{
+  content: "";
+  clear: both;
+  display: table;
 }
 form{
   padding: 35px;
 }
-#emailInput, #buttonRegister{
-  display: none;
-}
+
 .userInput{
   position: relative;
   width: 100%;

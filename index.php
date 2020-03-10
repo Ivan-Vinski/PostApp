@@ -14,18 +14,25 @@
         <h1>PostApp</h1>
       </div>
       <div class="container" id="navContainer">
-        <button type="button" name="buttonLogin" onclick="openLoginForm()">Login</button>
-        <button type="button" name="buttonRegister" onclick="openRegisterForm()">Register</button>
+        <button type="button" class="tablinks active" name="buttonLogin" onclick="switchLoginRegister(event, 'loginFormContainer')">Login</button>
+        <button type="button" class="tablinks" name="buttonRegister" onclick="switchLoginRegister(event, 'registerFormContainer')">Register</button>
       </div>
     </header>
 
     <section>
-      <div class="container" id="loginFormContainer" name="loginRegister">
+      <div class="container tabcontent" id="loginFormContainer" name="login">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <input type="text" name="username" placeholder="Username" class="userInput" autofocus><br><br>
-            <input type="password" name="password" placeholder="Password" class="userInput"><br><br>
-            <input type="text" name="email" placeholder="e-mail" class="userInput" id="emailInput"><br><br>
+            <input type="text" name="username" placeholder="Username" class="userInput" autofocus required><br><br>
+            <input type="password" name="password" placeholder="Password" class="userInput" required><br><br>
             <button type="submit" name="login" class="buttons" id="buttonLogin">Login</button>
+        </form>
+      </div>
+
+      <div class="container tabcontent" id="registerFormContainer" name="register">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+            <input type="text" name="username" placeholder="Username" class="userInput" autofocus required><br><br>
+            <input type="password" name="password" placeholder="Password" class="userInput" required><br><br>
+            <input type="text" name="email" placeholder="e-mail" class="userInput" id="emailInput" required><br><br>
             <button type="submit" name="register" class="buttons" id="buttonRegister">Register</button>
         </form>
       </div>
@@ -43,6 +50,21 @@
     </footer>
 
     <script type="text/javascript">
+
+      function switchLoginRegister(evt, divID){
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(divID).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+
       function openLoginForm(){
         document.getElementById("emailInput").style.display="none";
         document.getElementById("buttonLogin").style.display="block";

@@ -125,6 +125,7 @@ input{
   display: inline;
   width: 10%;
   margin: 10px 0px 10px 0px;
+  font-family: verdana;
 }
 button{
   width: 30%;
@@ -220,9 +221,13 @@ footer .container img, footer .container a{
   .tab{
     width: 90%;
   }
-  .postsContainer, .formContainer{
+  .postsContainer{
     width: 90%;
     height: 50vh;
+  }
+  .formContainer{
+    width: 90%;
+    height: 30vh;
   }
   .tab button{
     width: 45%;
