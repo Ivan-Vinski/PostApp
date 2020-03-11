@@ -14,14 +14,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-
-    <script>
-      function warnmebruh(){
-
-        toastr['error']('e-mail is not valid', 'e-mail');
-      }
-    </script>
-
     <header>
       <div class="container" id="logoContainer">
         <h1>PostApp</h1>
@@ -44,27 +36,16 @@
       <div class="container tabcontent" id="registerFormContainer" name="register">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             <input id="regusername" type="text" name="username" placeholder="Username" class="userInput" autofocus required title="Username" value="<?php if (isset($_GET['regusername'])){echo $_GET['regusername'];}?>"><br><br>
-            <input type="password" name="password" placeholder="Password" class="userInput" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+            <input id="regpasswordInput" type="password" name="password" placeholder="Password" class="userInput" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
             title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"><br><br>
-            <input type="text" name="email" placeholder="e-mail" class="userInput" id="emailInput" required title="e-mail" value="<?php if (isset($_GET['email'])){echo $_GET['email'];}?>"><br><br>
+            <input id="email" type="text" name="email" placeholder="e-mail" class="userInput" id="emailInput" required title="e-mail" value="<?php if (isset($_GET['email'])){echo $_GET['email'];}?>"><br><br>
             <button type="submit" name="register" class="buttons" id="buttonRegister">Register</button>
         </form>
       </div>
     </section>
 
-    <footer>
-      <div class="container">
-        <p>Developer: ivinski@foi.hr</p>
-      </div>
-      <div class="container">
-        <img src="./img/facebookIcon.png" alt="facebook"></img>
-        <a href="https://hr.linkedin.com/in/ivanvinski"><img src="./img/linkedInIcon.png" alt="linkedIn"></img></a>
-        <a href="https://github.com/VinsTheOne"><img src="./img/gitHubIcon.png" alt="gitHub"></img></a>
-      </div>
-    </footer>
 
     <script type="text/javascript">
-
       function switchLoginRegister(evt, divID){
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");
@@ -80,9 +61,25 @@
         document.getElementById("regusername").focus();
         document.getElementById("username").value="";
         document.getElementById("regusername").value="";
+        document.getElementById("passwordInput").value="";
+        document.getElementById("regpasswordInput").value="";
+        document.getElementById("email").value="";
         evt.currentTarget.className += " active";
       }
     </script>
+
+    <footer>
+      <div class="container">
+        <p>Developer: ivinski@foi.hr</p>
+      </div>
+      <div class="container">
+        <img src="./img/facebookIcon.png" alt="facebook"></img>
+        <a href="https://hr.linkedin.com/in/ivanvinski"><img src="./img/linkedInIcon.png" alt="linkedIn"></img></a>
+        <a href="https://github.com/VinsTheOne"><img src="./img/gitHubIcon.png" alt="gitHub"></img></a>
+      </div>
+    </footer>
+
+
 
   </body>
 </html>
@@ -116,6 +113,7 @@
 // SWITCH FROM LOGIN TO REGISTER FORM IF THERE IS AN ERROR INSIDE REGISTER USER INPUT
   if (isset($_GET["switch"])){
     echo "<script>document.getElementById('buttonRegister').click();</script>";
+    echo "<script>document.getElementById('regusername').value='".$_GET["regusername"]."';</script>";
   }
 // REGISTRATION GIVEN USERNAME TAKEN
   if (isset($_GET["userExists"])){
