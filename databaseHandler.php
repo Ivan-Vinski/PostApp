@@ -13,7 +13,7 @@
     else if (isset($_POST["login"])){
       $username = filter_var($_POST["username"], FILTER_SANITIZE_STRING);
       $password = $_POST["password"];
-      $username = login($conn, $username, $password);
+      login($conn, $username, $password);
 
     }
     else if (isset($_POST["register"])){
@@ -44,7 +44,7 @@
     $result = $conn->query($sql);
 
     if ($result->num_rows == 0){
-      header("Location: index.php?noUser=true"); // USER DOESN'T EXIST
+      header("Location: index.php?noUser=true&username=".$username); // USER DOESN'T EXIST
     }
     else{
       $row = $result->fetch_assoc();
@@ -65,24 +65,28 @@
     $sql = "SELECT * FROM postapp.users";
     $result = $conn->query($sql);
     $row = $result->fetch_all();
-    $flag = 0;
-
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      header("Location: index.php?xmail=true");
-    }
-
-    for ($i = 0; $i < getUserCount($conn); $i++){
-      if ($username == $row[$i][1]){
-        header("Location: index.php?userExists=true"); // USERNAME ALREADY IN USE
+    $flag = 1;
+    if ($flag){
+      if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        header("Location: index.php?xmail=true&regusername=".$username."&email=".$email."&switch=true");  // EMAIL FORMAT FALSE
       }
-      else if ($email == $row[$i][2]){
-        header("Location: index.php?emailExists=true"); // E-MAIL ALREADY IN USE
+
+      for ($i = 0; $i < getUserCount($conn); $i++){
+        if ($username == $row[$i][1]){
+          header("Location: index.php?userExists=true&regusername=".$username."&email=".$email."&switch=true"); // USERNAME ALREADY IN USE
+        }
+        else if ($email == $row[$i][2]){
+          header("Location: index.php?emailExists=true&regusername=".$username."&email=".$email."&switch=true"); // E-MAIL ALREADY IN USE
+        }
+        $flag = 0;
       }
     }
-
-    $hadhedPass = password_hash($password, PASSWORD_DEFAULT);
-    $sql = "INSERT INTO postapp.users(username, email, password) VALUES ('".$username."', '".$email."', '".$hadhedPass."')";
-    $result = $conn->query($sql);
+    else{
+      $hadhedPass = password_hash($password, PASSWORD_DEFAULT);
+      $sql = "INSERT INTO postapp.users(username, email, password) VALUES ('".$username."', '".$email."', '".$hadhedPass."')";
+      $result = $conn->query($sql);
+      header("Location: index.php?reg=true");
+    }
 
   }
 

@@ -28,7 +28,7 @@
       </div>
       <div class="container" id="navContainer">
         <button type="button" class="tablinks active" name="buttonLogin" onclick="switchLoginRegister(event, 'loginFormContainer')">Login</button>
-        <button type="button" class="tablinks" name="buttonRegister" onclick="switchLoginRegister(event, 'registerFormContainer')">Register</button>
+        <button id="buttonRegister" type="button" class="tablinks" name="buttonRegister" onclick="switchLoginRegister(event, 'registerFormContainer')">Register</button>
       </div>
     </header>
 
@@ -43,10 +43,10 @@
 
       <div class="container tabcontent" id="registerFormContainer" name="register">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <input type="text" name="username" placeholder="Username" class="userInput" autofocus required title="Username"><br><br>
+            <input id="regusername" type="text" name="username" placeholder="Username" class="userInput" autofocus required title="Username" value="<?php if (isset($_GET['regusername'])){echo $_GET['regusername'];}?>"><br><br>
             <input type="password" name="password" placeholder="Password" class="userInput" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
             title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"><br><br>
-            <input type="text" name="email" placeholder="e-mail" class="userInput" id="emailInput" required title="e-mail"><br><br>
+            <input type="text" name="email" placeholder="e-mail" class="userInput" id="emailInput" required title="e-mail" value="<?php if (isset($_GET['email'])){echo $_GET['email'];}?>"><br><br>
             <button type="submit" name="register" class="buttons" id="buttonRegister">Register</button>
         </form>
       </div>
@@ -76,6 +76,10 @@
           tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
         document.getElementById(divID).style.display = "block";
+        document.getElementById("username").focus();
+        document.getElementById("regusername").focus();
+        document.getElementById("username").value="";
+        document.getElementById("regusername").value="";
         evt.currentTarget.className += " active";
       }
     </script>
@@ -84,16 +88,16 @@
 </html>
 
 <?php
-
+// USER LOGOUT SUCCESS
   if (isset($_GET["logout"])){
     session_destroy();
       echo "<script>toastr.options = {
         'closeButton': true,
         'positionClass': 'toast-top-center'
         }
-    toastr['success']('Logout succesfull', 'Logout')</script>";
+    toastr['success']('Logout succesful', 'Logout')</script>";
   }
-
+// USER LOGIN WRONG PASSWORD
   if (isset($_GET["wp"])) {
     echo "<script>toastr.options = {
       'closeButton': true,
@@ -101,7 +105,7 @@
       }
     toastr['error']('Incorrect password', 'Password')</script>";
   }
-
+// USER LOGIN NO ACCOUNT WITH GIVEN USERNAME
   if (isset($_GET["noUser"])){
     echo "<script>toastr.options = {
       'closeButton': true,
@@ -109,15 +113,20 @@
       }
     toastr['warning']('Account with given username not found', 'Username')</script>";
   }
-
+// SWITCH FROM LOGIN TO REGISTER FORM IF THERE IS AN ERROR INSIDE REGISTER USER INPUT
+  if (isset($_GET["switch"])){
+    echo "<script>document.getElementById('buttonRegister').click();</script>";
+  }
+// REGISTRATION GIVEN USERNAME TAKEN
   if (isset($_GET["userExists"])){
+    echo "<script>document.getElementById('buttonRegister').click();</script>";
       echo "<script>toastr.options = {
         'closeButton': true,
         'positionClass': 'toast-top-center'
         }
       toastr['warning']('Account with given username already exists', 'Username')</script>";
   }
-
+// REGISTRATION GIVEN EMAIL TAKEN
   if(isset($_GET["emailExists"])){
     echo "<script>toastr.options = {
       'closeButton': true,
@@ -125,7 +134,15 @@
       }
     toastr['warning']('Account with given e-mail already exists', 'e-mail')</script>";
   }
-
+// REGISTRATION WRONG EMAIL ADRESS FORMAT
+  if (isset($_GET["xmail"])){
+    echo "<script>toastr.options = {
+      'closeButton': true,
+      'positionClass': 'toast-top-center'
+      }
+    toastr['error']('Invalid e-mail adress', 'e-mail')</script>";
+  }
+// REGISTRATION SUCCESS
   if (isset($_GET["reg"])){
     echo "<script>toastr.options = {
       'closeButton': true,
@@ -134,11 +151,4 @@
     toastr['success']('...Success!', 'Registration')</script>";
   }
 
-  if (isset($_GET["xmail"])){
-    echo "<script>toastr.options = {
-      'closeButton': true,
-      'positionClass': 'toast-top-center'
-      }
-    toastr['error']('Invalid e-mail adress', 'e-mail')</script>";
-  }
  ?>
