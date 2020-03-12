@@ -1,14 +1,23 @@
-
+<?php
+session_start();
+if (isset($_GET["username"])){
+  $_SESSION["username"] = $_GET["username"];
+}
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <title>PostApp</title>
   </head>
 
   <body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
     <header>
       <div class="container" id="logoContainer">
@@ -42,30 +51,11 @@
     </div>
 
     <div id="privateFeed" class="tabcontent">
-      <script>
-        function validatePostsForm() {
-          var x = document.forms["postForm"]["title"].value;
-          if (x == null || x == "") {
-            alert("Title must be filled out");
-            return false;
-          }
-          var x = document.forms["postForm"]["text"].value;
-          if (x == null || x == "") {
-            alert("Text must be filled out");
-            return false;
-          }
-          var x = document.forms["postForm"]["bool"].value;
-          if (x == null || x == "") {
-            alert("Choose if post is public or private");
-            return false;
-          }
-        }
-      </script>
       <div id="mainPrivateContainer">
         <section class="formContainer">
           <form name="postForm" action="./main.php" method="post" onsubmit="return validatePostsForm()">
-            <textarea type="text" name="title" id="titleInput" placeholder="Title"></textarea><br>
-            <textarea type="text" name="text" id="textInput" placeholder="Post"></textarea><br>
+            <textarea type="text" name="title" id="titleInput" placeholder="Title" required><?php if(isset($_SESSION["title"])){echo $_SESSION["title"];} ?></textarea><br>
+            <textarea type="text" name="text" id="textInput" placeholder="Post" required><?php if(isset($_SESSION["text"])){echo $_SESSION["text"];} ?></textarea><br>
             <label for='private' class="bool">Private</label>
             <input type='radio' id='private' name='bool' value='private' class="bool">
             <label for='public' class="bool">Public</label>
@@ -136,3 +126,29 @@
 
   </body>
 </html>
+
+<?php
+  if (isset($_GET["titlelen"])){
+    echo "<script>toastr.options = {
+      'closeButton': true,
+      'positionClass': 'toast-top-center'
+      }
+    toastr['error']('Title limited to 50 characters', 'Title')</script>";
+  }
+
+  if (isset($_GET["textlen"])){
+    echo "<script>toastr.options = {
+      'closeButton': true,
+      'positionClass': 'toast-top-center'
+      }
+    toastr['error']('Text limited to 140 characters', 'Post')</script>";
+  }
+
+  if (isset($_GET["bool"])){
+    echo "<script>toastr.options = {
+      'closeButton': true,
+      'positionClass': 'toast-top-center'
+      }
+    toastr['error']('Choose private or public posting', 'Post')</script>";
+  }
+ ?>

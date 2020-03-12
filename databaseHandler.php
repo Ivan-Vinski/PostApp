@@ -1,11 +1,9 @@
 <?php
-  session_start();
   $username=$email=$password="";
   $conn = connectDB("localhost", "root", "");
   if($_SERVER["REQUEST_METHOD"] == "POST"){
     if (isset($_POST["postPost"])){
       insertPost($conn, $_POST["title"], $_POST["text"], $_POST["bool"] ,getUserID($conn, $_SESSION["username"]));
-      header("Refresh:0");
     }
     if(isset($_POST["deleteButton"])){
       deletePost($conn, $_POST["deleteInput"]);
@@ -57,7 +55,7 @@
       // CHECK IF INSERTED PASSWORD (HASHED) MATCHES HASHED PASSWORD FROM DATABASE
       if (password_verify($password, $dbPassword)){
         $_SESSION['username'] = $username;
-        header("Location: main/main.php"); // LOGIN ALLOWED, REDIRECT TO MAIN.PHP
+        header("Location: main/main.php?username=".$username); // LOGIN ALLOWED, REDIRECT TO MAIN.PHP
       }
       else{
         header("Location: index.php?wp=true&username=".$username); // WRONG PASSWORD
@@ -75,23 +73,26 @@
     // CHECK IF E-MAIL ADRESS IS IN VALID FORMAT
     if ($flag){
       if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $flag = 0;
         header("Location: index.php?xmail=true&regusername=".$username."&email=".$email."&switch=true");
       }
 
       for ($i = 0; $i < getUserCount($conn); $i++){
         // CHECK IF ACCOUNT WITH GIVEN USERNAME ALREADY EXISTS
         if ($username == $row[$i][1]){
+          $flag = 0;
           header("Location: index.php?userExists=true&regusername=".$username."&email=".$email."&switch=true");
         }
         // CHECK IF ACCOUNT WITH GIVEN E-MAIL ALREADY EXISTS
         else if ($email == $row[$i][2]){
-          header("Location: index.php?emailExists=true&regusername=".$username."&email=".$email."&switch=true"); // E-MAIL ALREADY IN USE
+          $flag = 0;
+          header("Location: index.php?emailExists=true&regusername=".$username."&email=".$email."&switch=true");
         }
-        $flag = 0;
+
       }
     }
     // REGISTRATION ALLOWED
-    if (flag){
+    if ($flag){
       $hadhedPass = password_hash($password, PASSWORD_DEFAULT);
       $sql = "INSERT INTO postapp.users(username, email, password) VALUES ('".$username."', '".$email."', '".$hadhedPass."')";
       $result = $conn->query($sql);
@@ -149,16 +150,38 @@
   }
 
   function insertPost($conn, $title, $text, $bool, $userID){
-    if ($bool == "private"){
-      $sql = "INSERT INTO postapp.posts(postTitle, postText, time, public, user_id) VALUES ('".$title."', '".$text."', current_timestamp(), '0' ,'".$userID."')";
-      $result = $conn->query($sql);
-      return $result;
+    if (strlen($title) > 50){
+      $_SESSION["title"] = $title;
+      $_SESSION["text"] = $text;
+      header("Location: main.php?titlelen=false");
+    }
+
+    else if (strlen($text) > 140){
+      $_SESSION["title"] = $title;
+      $_SESSION["text"] = $text;
+      header("Location: main.php?textlen=false");
+    }
+
+    else if (empty($bool)){
+      $_SESSION["title"] = $title;
+      $_SESSION["text"] = $text;
+      header("Location: main.php?bool=false");
     }
     else{
-      $sql = "INSERT INTO postapp.posts(postTitle, postText, time, public, user_id) VALUES ('".$title."', '".$text."', current_timestamp(), '1','".$userID."')";
-      $result = $conn->query($sql);
-      return $result;
+      $_SESSION["title"] = "";
+      $_SESSION["text"] = "";
+      if ($bool == "private"){
+        $sql = "INSERT INTO postapp.posts(postTitle, postText, time, public, user_id) VALUES ('".$title."', '".$text."', current_timestamp(), '0' ,'".$userID."')";
+        $result = $conn->query($sql);
+        return $result;
+      }
+      else{
+        $sql = "INSERT INTO postapp.posts(postTitle, postText, time, public, user_id) VALUES ('".$title."', '".$text."', current_timestamp(), '1','".$userID."')";
+        $result = $conn->query($sql);
+        return $result;
+      }
     }
+
 
   }
   function deletePost($conn, $postID){

@@ -1,4 +1,8 @@
-<?php include "databaseHandler.php"; ?>
+<?php
+include "databaseHandler.php";
+session_start();
+?>
+
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">

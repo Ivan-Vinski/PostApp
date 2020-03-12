@@ -13,6 +13,12 @@ body{
   padding-bottom: 20vh;
 }
 
+.toast {
+  opacity: 1 !important;
+  font-family: verdana;
+  font-size: 12px;
+}
+
 /* HEADER */
 header{
   background-color: black;
