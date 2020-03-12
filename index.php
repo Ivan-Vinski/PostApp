@@ -46,7 +46,7 @@
 
 
     <script type="text/javascript">
-      function switchLoginRegister(evt, divID){
+      function switchLoginRegister(evt, divID){ // FUNCTION TO SWITCH BETWEEN LOGIN AND REGISTER FORMS
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");
         for (i = 0; i < tabcontent.length; i++) {
@@ -59,11 +59,6 @@
         document.getElementById(divID).style.display = "block";
         document.getElementById("username").focus();
         document.getElementById("regusername").focus();
-        document.getElementById("username").value="";
-        document.getElementById("regusername").value="";
-        document.getElementById("passwordInput").value="";
-        document.getElementById("regpasswordInput").value="";
-        document.getElementById("email").value="";
         evt.currentTarget.className += " active";
       }
     </script>
@@ -84,7 +79,7 @@
   </body>
 </html>
 
-<?php
+<?php // MESSAGES SENT BY DATABASEHANDLER AS RESPONSES TO POTENTIAL LOGIN OR REGISTER
 // USER LOGOUT SUCCESS
   if (isset($_GET["logout"])){
     session_destroy();
@@ -113,7 +108,10 @@
 // SWITCH FROM LOGIN TO REGISTER FORM IF THERE IS AN ERROR INSIDE REGISTER USER INPUT
   if (isset($_GET["switch"])){
     echo "<script>document.getElementById('buttonRegister').click();</script>";
-    echo "<script>document.getElementById('regusername').value='".$_GET["regusername"]."';</script>";
+    echo "<script>
+    document.getElementById('regusername').value='".$_GET["regusername"]."';
+    document.getElementById('email').value='".$_GET["email"]."';
+    </script>";
   }
 // REGISTRATION GIVEN USERNAME TAKEN
   if (isset($_GET["userExists"])){

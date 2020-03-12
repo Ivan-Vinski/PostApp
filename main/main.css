@@ -211,6 +211,7 @@ footer .container img, footer .container a{
   margin: 0px 5px 0px 5px;
 }
 
+/* RESPONSIVE */
 @media only screen and (max-width: 1200px) {
   .postsContainer, .formContainer, .tab{
     width: 60%;
