@@ -91,7 +91,7 @@
       }
     }
     // REGISTRATION ALLOWED
-    else{
+    if (flag){
       $hadhedPass = password_hash($password, PASSWORD_DEFAULT);
       $sql = "INSERT INTO postapp.users(username, email, password) VALUES ('".$username."', '".$email."', '".$hadhedPass."')";
       $result = $conn->query($sql);
