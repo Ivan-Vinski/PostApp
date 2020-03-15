@@ -1,5 +1,0 @@
-PostApp logo nek bude clickable
-Greska tijekom logina trebaa vratit $username u login formu
-isto i za register
-rjesi ove alertove da se ili ne pojavljuju ili pojavljuju na vrijeme
-pogledaj onaj toast za alertove
