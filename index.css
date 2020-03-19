@@ -37,7 +37,12 @@ header .container{
 #logoContainer{
   color: white;
   font-weight: bold;
-  font-family: serif;
+  font-family: verdana;
+}
+
+header a{
+  text-decoration: none;
+  color: white;
 }
 
 #navContainer{

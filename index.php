@@ -1,6 +1,14 @@
 <?php
-include "databaseHandler.php";
 session_start();
+if(!isset($_GET["noUser"]) && !isset($_GET["wrongPass"])){
+  $_SESSION["username"] = "";
+}
+if(!isset($_GET["wrongEmail"]) && !isset($_GET["userExists"]) && !isset($_GET["emailExists"])){
+  $_SESSION["regusername"] = "";
+  $_SESSION["email"] = "";
+}
+include "databaseHandler.php";
+
 ?>
 
 
@@ -20,7 +28,7 @@ session_start();
 
     <header>
       <div class="container" id="logoContainer">
-        <h1>PostApp</h1>
+        <a href="./index.php"><h1>PostApp</h1></a>
       </div>
       <div class="container" id="navContainer">
         <button type="button" class="tablinks active" name="buttonLogin" onclick="switchLoginRegister(event, 'loginFormContainer')">Login</button>
@@ -31,7 +39,7 @@ session_start();
     <section>
       <div class="container tabcontent" id="loginFormContainer" name="login">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <input id="username" type="text" name="username" placeholder="Username" class="userInput" autofocus required title="Username" value="<?php if (isset($_GET['username'])){echo $_GET['username'];}?>"><br><br>
+            <input id="username" type="text" name="username" placeholder="Username" class="userInput" autofocus required title="Username" value="<?php if (isset($_SESSION['username'])){echo $_SESSION['username'];}?>"><br><br>
             <input id="passwordInput" type="password" name="password" placeholder="Password" class="userInput" required title="Password"><br><br>
             <button type="submit" name="login" class="buttons" id="buttonLogin">Login</button>
         </form>
@@ -39,10 +47,10 @@ session_start();
 
       <div class="container tabcontent" id="registerFormContainer" name="register">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <input id="regusername" type="text" name="username" placeholder="Username" class="userInput" autofocus required title="Username" value="<?php if (isset($_GET['regusername'])){echo $_GET['regusername'];}?>"><br><br>
+            <input id="regusername" type="text" name="username" placeholder="Username" class="userInput" autofocus required title="Username" value="<?php if (isset($_SESSION['regusername'])){echo $_SESSION['regusername'];}?>"><br><br>
+            <input id="email" type="text" name="email" placeholder="e-mail" class="userInput" id="emailInput" required title="e-mail" value="<?php if (isset($_SESSION['email'])){echo $_SESSION['email'];}?>"><br><br>
             <input id="regpasswordInput" type="password" name="password" placeholder="Password" class="userInput" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
             title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"><br><br>
-            <input id="email" type="text" name="email" placeholder="e-mail" class="userInput" id="emailInput" required title="e-mail" value="<?php if (isset($_GET['email'])){echo $_GET['email'];}?>"><br><br>
             <button type="submit" name="register" class="buttons" id="buttonRegister">Register</button>
         </form>
       </div>
@@ -94,8 +102,10 @@ session_start();
     toastr['success']('Logout succesful', 'Logout')</script>";
   }
 // USER LOGIN WRONG PASSWORD
-  if (isset($_GET["wp"])) {
-    echo "<script>toastr.options = {
+  if (isset($_GET["wrongPass"])) {
+    echo "<script>
+    document.getElementById('passwordInput').focus();
+    toastr.options = {
       'closeButton': true,
       'positionClass': 'toast-top-center'
       }
@@ -112,10 +122,6 @@ session_start();
 // SWITCH FROM LOGIN TO REGISTER FORM IF THERE IS AN ERROR INSIDE REGISTER USER INPUT
   if (isset($_GET["switch"])){
     echo "<script>document.getElementById('buttonRegister').click();</script>";
-    echo "<script>
-    document.getElementById('regusername').value='".$_GET["regusername"]."';
-    document.getElementById('email').value='".$_GET["email"]."';
-    </script>";
   }
 // REGISTRATION GIVEN USERNAME TAKEN
   if (isset($_GET["userExists"])){
@@ -128,15 +134,19 @@ session_start();
   }
 // REGISTRATION GIVEN EMAIL TAKEN
   if(isset($_GET["emailExists"])){
-    echo "<script>toastr.options = {
+    echo "<script>
+    document.getElementById('email').focus();
+    toastr.options = {
       'closeButton': true,
       'positionClass': 'toast-top-center'
       }
     toastr['warning']('Account with given e-mail already exists', 'e-mail')</script>";
   }
 // REGISTRATION WRONG EMAIL ADRESS FORMAT
-  if (isset($_GET["xmail"])){
-    echo "<script>toastr.options = {
+  if (isset($_GET["wrongEmail"])){
+    echo "<script>
+    document.getElementById('email').focus();
+    toastr.options = {
       'closeButton': true,
       'positionClass': 'toast-top-center'
       }

@@ -1,5 +1,10 @@
 <?php
 session_start();
+if(!isset($_GET["titlelen"]) && !isset($_GET["textlen"])){
+  $_SESSION["title"] = "";
+  $_SESSION["text"] = "";
+}
+
 if (isset($_GET["username"])){
   $_SESSION["username"] = $_GET["username"];
 }
@@ -21,7 +26,7 @@ if (isset($_GET["username"])){
 
     <header>
       <div class="container" id="logoContainer">
-        <h1>PostApp</h1>
+      <a href="./main.php"><h1>PostApp</h1></a>
       </div>
       <div class="container" id="navContainer">
         <a href="../index.php?logout=true">Logout</a>
@@ -54,7 +59,7 @@ if (isset($_GET["username"])){
       <div id="mainPrivateContainer">
         <section class="formContainer">
           <form name="postForm" action="./main.php" method="post" onsubmit="return validatePostsForm()">
-            <textarea type="text" name="title" id="titleInput" placeholder="Title" required><?php if(isset($_SESSION["title"])){echo $_SESSION["title"];} ?></textarea><br>
+            <textarea type="text" name="title" id="titleInput" placeholder="Title" autofocus required><?php if(isset($_SESSION["title"])){echo $_SESSION["title"];} ?></textarea><br>
             <textarea type="text" name="text" id="textInput" placeholder="Post" required><?php if(isset($_SESSION["text"])){echo $_SESSION["text"];} ?></textarea><br>
             <label for='private' class="bool">Private</label>
             <input type='radio' id='private' name='bool' value='private' class="bool">
@@ -129,7 +134,9 @@ if (isset($_GET["username"])){
 
 <?php
   if (isset($_GET["titlelen"])){
-    echo "<script>toastr.options = {
+    echo "<script>
+    document.getElementById('titleInput').focus();
+    toastr.options = {
       'closeButton': true,
       'positionClass': 'toast-top-center'
       }
@@ -137,7 +144,9 @@ if (isset($_GET["username"])){
   }
 
   if (isset($_GET["textlen"])){
-    echo "<script>toastr.options = {
+    echo "<script>
+    document.getElementById('textInput').focus();
+    toastr.options = {
       'closeButton': true,
       'positionClass': 'toast-top-center'
       }

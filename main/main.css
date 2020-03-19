@@ -42,8 +42,9 @@ header .container{
   font-weight: bold;
 }
 
-#logoContainer p{
-  font-family: serif;
+header a{
+  text-decoration: none;
+  color: white;
 }
 #navContainer{
   text-align: right;

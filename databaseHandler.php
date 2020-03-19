@@ -45,7 +45,8 @@
 
     // CHECK IF ACCOUNT WITH GIVEN USERNAME EXISTS
     if ($result->num_rows == 0){
-      header("Location: index.php?noUser=true&username=".$username);
+      $_SESSION["username"] = $username;
+      header("Location: index.php?noUser=true");
     }
     else{
       $row = $result->fetch_assoc();
@@ -54,11 +55,11 @@
 
       // CHECK IF INSERTED PASSWORD (HASHED) MATCHES HASHED PASSWORD FROM DATABASE
       if (password_verify($password, $dbPassword)){
-        $_SESSION['username'] = $username;
         header("Location: main/main.php?username=".$username); // LOGIN ALLOWED, REDIRECT TO MAIN.PHP
       }
       else{
-        header("Location: index.php?wp=true&username=".$username); // WRONG PASSWORD
+        $_SESSION["username"] = $username;
+        header("Location: index.php?wrongPass=true"); // WRONG PASSWORD
       }
     }
   }
@@ -74,19 +75,25 @@
     if ($flag){
       if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $flag = 0;
-        header("Location: index.php?xmail=true&regusername=".$username."&email=".$email."&switch=true");
+        $_SESSION["regusername"] = $username;
+        $_SESSION["email"] = $email;
+        header("Location: index.php?wrongEmail=true&switch=true");
       }
 
       for ($i = 0; $i < getUserCount($conn); $i++){
         // CHECK IF ACCOUNT WITH GIVEN USERNAME ALREADY EXISTS
         if ($username == $row[$i][1]){
           $flag = 0;
-          header("Location: index.php?userExists=true&regusername=".$username."&email=".$email."&switch=true");
+          $_SESSION["regusername"] = $username;
+          $_SESSION["email"] = $email;
+          header("Location: index.php?userExists=true&switch=true");
         }
         // CHECK IF ACCOUNT WITH GIVEN E-MAIL ALREADY EXISTS
         else if ($email == $row[$i][2]){
           $flag = 0;
-          header("Location: index.php?emailExists=true&regusername=".$username."&email=".$email."&switch=true");
+          $_SESSION["regusername"] = $username;
+          $_SESSION["email"] = $email;
+          header("Location: index.php?emailExists=true&switch=true");
         }
 
       }
