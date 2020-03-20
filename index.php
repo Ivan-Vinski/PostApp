@@ -39,7 +39,7 @@ include "databaseHandler.php";
     <section>
       <div class="container tabcontent" id="loginFormContainer" name="login">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <input id="username" type="text" name="username" placeholder="Username" class="userInput" autofocus required title="Username" value="<?php if (isset($_SESSION['username'])){echo $_SESSION['username'];}?>"><br><br>
+            <input id="username" type="text" name="username" placeholder="Username" class="userInput" onfocus="moveCursorToEnd(this);" autofocus required title="Username" value="<?php if (isset($_SESSION['username'])){echo $_SESSION['username'];}?>"><br><br>
             <input id="passwordInput" type="password" name="password" placeholder="Password" class="userInput" required title="Password"><br><br>
             <button type="submit" name="login" class="buttons" id="buttonLogin">Login</button>
         </form>
@@ -47,8 +47,8 @@ include "databaseHandler.php";
 
       <div class="container tabcontent" id="registerFormContainer" name="register">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <input id="regusername" type="text" name="username" placeholder="Username" class="userInput" autofocus required title="Username" value="<?php if (isset($_SESSION['regusername'])){echo $_SESSION['regusername'];}?>"><br><br>
-            <input id="email" type="text" name="email" placeholder="e-mail" class="userInput" id="emailInput" required title="e-mail" value="<?php if (isset($_SESSION['email'])){echo $_SESSION['email'];}?>"><br><br>
+            <input id="regusername" type="text" name="username" placeholder="Username" class="userInput" onfocus="moveCursorToEnd(this);" autofocus required title="Username" value="<?php if (isset($_SESSION['regusername'])){echo $_SESSION['regusername'];}?>"><br><br>
+            <input id="email" type="text" name="email" placeholder="e-mail" class="userInput" id="emailInput" required title="e-mail" onfocus="moveCursorToEnd(this);" value="<?php if (isset($_SESSION['email'])){echo $_SESSION['email'];}?>"><br><br>
             <input id="regpasswordInput" type="password" name="password" placeholder="Password" class="userInput" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
             title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"><br><br>
             <button type="submit" name="register" class="buttons" id="buttonRegister">Register</button>
@@ -73,6 +73,16 @@ include "databaseHandler.php";
         document.getElementById("regusername").focus();
         evt.currentTarget.className += " active";
       }
+      function moveCursorToEnd(el) {
+          if (typeof el.selectionStart == "number") {
+            el.selectionStart = el.selectionEnd = el.value.length;
+          } else if (typeof el.createTextRange != "undefined") {
+            el.focus();
+            var range = el.createTextRange();
+            range.collapse(false);
+            range.select();
+    }
+}
     </script>
 
     <footer>
