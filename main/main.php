@@ -47,6 +47,16 @@ if (isset($_GET["username"])){
         document.getElementById(divID).style.display = "block";
         evt.currentTarget.className += " active";
       }
+      function moveCursorToEnd(el) {
+          if (typeof el.selectionStart == "number") {
+            el.selectionStart = el.selectionEnd = el.value.length;
+          } else if (typeof el.createTextRange != "undefined") {
+            el.focus();
+            var range = el.createTextRange();
+            range.collapse(false);
+            range.select();
+          }
+        }
 
     </script>
 
@@ -59,8 +69,8 @@ if (isset($_GET["username"])){
       <div id="mainPrivateContainer">
         <section class="formContainer">
           <form name="postForm" action="./main.php" method="post" onsubmit="return validatePostsForm()">
-            <textarea type="text" name="title" id="titleInput" placeholder="Title" autofocus required><?php if(isset($_SESSION["title"])){echo $_SESSION["title"];} ?></textarea><br>
-            <textarea type="text" name="text" id="textInput" placeholder="Post" required><?php if(isset($_SESSION["text"])){echo $_SESSION["text"];} ?></textarea><br>
+            <textarea type="text" name="title" id="titleInput" placeholder="Title" autofocus onfocus="moveCursorToEnd(this);" required><?php if(isset($_SESSION["title"])){echo $_SESSION["title"];} ?></textarea><br>
+            <textarea type="text" name="text" id="textInput" placeholder="Post" onfocus="moveCursorToEnd(this);" required><?php if(isset($_SESSION["text"])){echo $_SESSION["text"];} ?></textarea><br>
             <label for='private' class="bool">Private</label>
             <input type='radio' id='private' name='bool' value='private' class="bool">
             <label for='public' class="bool">Public</label>

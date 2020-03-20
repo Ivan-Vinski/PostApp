@@ -81,8 +81,8 @@ include "databaseHandler.php";
             var range = el.createTextRange();
             range.collapse(false);
             range.select();
-    }
-}
+          }
+        }
     </script>
 
     <footer>
